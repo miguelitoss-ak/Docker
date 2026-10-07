@@ -16,7 +16,8 @@ services:
     volumes:
       - ./htdocs:/var/www/htdocs
     networks:
-      - app-network
+      app-network:
+        ipv4_address: 172.18.0.3
   db:
     image: mariadb:latest
     container_name: db
@@ -29,9 +30,15 @@ services:
       MYSQL_ROOT_PASSWORD: 123
       SERVICE_TAGS: dev
       SERVICE_NAME: db
+
+
     networks:
-      - app-network
+      app-network:
+        ipv4_address: 172.18.0.2
 
 networks:
   app-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
